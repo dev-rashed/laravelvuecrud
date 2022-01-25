@@ -2186,6 +2186,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -2243,7 +2244,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      products: [],
+      fields: [{
+        key: "id",
+        label: "ID"
+      }, {
+        key: "name",
+        label: "Name"
+      }, {
+        key: "price",
+        label: "Price"
+      }, {
+        key: "actions",
+        label: "Actions",
+        sortable: false
+      }]
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    this.axios.get("/api/products").then(function (response) {
+      _this.products = response.data;
+    });
+  }
+});
 
 /***/ }),
 
@@ -2274,7 +2306,7 @@ vue__WEBPACK_IMPORTED_MODULE_4__["default"].use(bootstrap_vue__WEBPACK_IMPORTED_
 vue__WEBPACK_IMPORTED_MODULE_4__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_6__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_4__["default"].use(vue_axios__WEBPACK_IMPORTED_MODULE_2__["default"], (axios__WEBPACK_IMPORTED_MODULE_1___default()));
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__["default"]({
-  routes: _router__WEBPACK_IMPORTED_MODULE_3__["default"],
+  routes: _router__WEBPACK_IMPORTED_MODULE_3__.routes,
   mode: "history"
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
@@ -2296,7 +2328,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "routes": () => (/* binding */ routes)
 /* harmony export */ });
 /* harmony import */ var _components_Products__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Products */ "./resources/js/components/Products.vue");
 /* harmony import */ var _components_ProductCreate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/ProductCreate */ "./resources/js/components/ProductCreate.vue");
@@ -2306,18 +2338,17 @@ __webpack_require__.r(__webpack_exports__);
 
 var routes = [{
   name: "products",
-  path: "products",
+  path: "/products",
   component: _components_Products__WEBPACK_IMPORTED_MODULE_0__["default"]
 }, {
-  name: "product-create",
-  path: "products/create",
-  component: _components_ProductCreate__WEBPACK_IMPORTED_MODULE_1__["default"]
-}, {
   name: "product-edit",
-  path: "products/edit/:id",
+  path: "/products/edit/:id",
   component: _components_ProductEdit__WEBPACK_IMPORTED_MODULE_2__["default"]
+}, {
+  name: "product-create",
+  path: "/products/create",
+  component: _components_ProductCreate__WEBPACK_IMPORTED_MODULE_1__["default"]
 }];
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
 
 /***/ }),
 
@@ -48387,44 +48418,32 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
-      _c(
-        "nav",
-        { staticClass: "navbar navbar-expand-sm bg-dark navbar-dark" },
-        [
-          _c("div", { staticClass: "collapse navbar-collapse" }, [
+  return _c("div", { staticClass: "container" }, [
+    _c("nav", { staticClass: "navbar navbar-expand-sm bg-dark navbar-dark" }, [
+      _c("div", { staticClass: "collapse navbar-collapse" }, [
+        _c(
+          "div",
+          { staticClass: "navbar-nav" },
+          [
             _c(
-              "div",
-              { staticClass: "navbar-nav" },
-              [
-                _c(
-                  "router-link",
-                  { staticClass: "nav-link", attrs: { to: "/products" } },
-                  [_vm._v("Products")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "nav-link",
-                    attrs: { to: "/products/create" },
-                  },
-                  [_vm._v("Create")]
-                ),
-              ],
-              1
+              "router-link",
+              { staticClass: "nav-link", attrs: { to: "/products" } },
+              [_vm._v("Products")]
             ),
-          ]),
-        ]
-      ),
-      _vm._v(" "),
-      _c("router-view"),
-    ],
-    1
-  )
+            _vm._v(" "),
+            _c(
+              "router-link",
+              { staticClass: "nav-link", attrs: { to: "/products/create" } },
+              [_vm._v("Create")]
+            ),
+          ],
+          1
+        ),
+      ]),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "mt-3" }, [_c("router-view")], 1),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -48499,7 +48518,24 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v("Products")])
+  return _c(
+    "div",
+    [
+      _c("h1", [_vm._v("Products")]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("b-table", {
+        attrs: {
+          items: _vm.products,
+          fields: _vm.fields,
+          striped: "",
+          hover: "",
+        },
+      }),
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
