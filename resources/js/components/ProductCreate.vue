@@ -55,7 +55,6 @@ export default {
                 .post("/api/products", this.product)
                 .then((response) => {
                     this.$router.push({ name: "products" });
-                    console.log(response);
                 })
                 .catch((err) => {
                     console.log(err);
